@@ -23,6 +23,11 @@ class UserController extends AdminController
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
+        // $grid->disableActions();
+        // $grid->disableCreateButton();
+        // $grid->disableExport();
+        // $grid->disableFilter();
+
         return $grid;
     }
 
@@ -36,6 +41,8 @@ class UserController extends AdminController
        
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
+
+
 
         return $show;
     }
