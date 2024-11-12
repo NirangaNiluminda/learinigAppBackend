@@ -1,0 +1,302 @@
+-- import to SQLite by running: sqlite3.exe db.sqlite3 -init sqlite.sql
+
+PRAGMA journal_mode = MEMORY;
+PRAGMA synchronous = OFF;
+PRAGMA foreign_keys = OFF;
+PRAGMA ignore_check_constraints = OFF;
+PRAGMA auto_vacuum = NONE;
+PRAGMA secure_delete = OFF;
+BEGIN TRANSACTION;
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+CREATE TABLE `admin_menu` (
+`id` INTEGER  NOT NULL,
+`parent_id` INTEGER NOT NULL DEFAULT 0,
+`order` INTEGER NOT NULL DEFAULT 0,
+`title` TEXT NOT NULL,
+`icon` TEXT NOT NULL,
+`uri` TEXT DEFAULT NULL,
+`permission` TEXT DEFAULT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_operation_log` (
+`id` INTEGER  NOT NULL,
+`user_id` INTEGER NOT NULL,
+`path` TEXT NOT NULL,
+`method` TEXT NOT NULL,
+`ip` TEXT NOT NULL,
+`input` text NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_permissions` (
+`id` INTEGER  NOT NULL,
+`name` TEXT NOT NULL,
+`slug` TEXT NOT NULL,
+`http_method` TEXT DEFAULT NULL,
+`http_path` text DEFAULT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_roles` (
+`id` INTEGER  NOT NULL,
+`name` TEXT NOT NULL,
+`slug` TEXT NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_role_menu` (
+`role_id` INTEGER NOT NULL,
+`menu_id` INTEGER NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_role_permissions` (
+`role_id` INTEGER NOT NULL,
+`permission_id` INTEGER NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_role_users` (
+`role_id` INTEGER NOT NULL,
+`user_id` INTEGER NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_users` (
+`id` INTEGER  NOT NULL,
+`username` TEXT NOT NULL,
+`password` TEXT NOT NULL,
+`name` TEXT NOT NULL,
+`avatar` TEXT DEFAULT NULL,
+`remember_token` TEXT DEFAULT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `admin_user_permissions` (
+`user_id` INTEGER NOT NULL,
+`permission_id` INTEGER NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `cache` (
+`key` TEXT NOT NULL,
+`value` mediumtext NOT NULL,
+`expiration` INTEGER NOT NULL
+);
+
+CREATE TABLE `cache_locks` (
+`key` TEXT NOT NULL,
+`owner` TEXT NOT NULL,
+`expiration` INTEGER NOT NULL
+);
+
+CREATE TABLE `failed_jobs` (
+`id` bigINTEGER  NOT NULL,
+`uuid` TEXT NOT NULL,
+`connection` text NOT NULL,
+`queue` text NOT NULL,
+`payload` TEXT NOT NULL,
+`exception` TEXT NOT NULL,
+`failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+);
+
+CREATE TABLE `jobs` (
+`id` bigINTEGER  NOT NULL,
+`queue` TEXT NOT NULL,
+`payload` TEXT NOT NULL,
+`attempts` tinyINTEGER  NOT NULL,
+`reserved_at` INTEGER  DEFAULT NULL,
+`available_at` INTEGER  NOT NULL,
+`created_at` INTEGER  NOT NULL
+);
+
+CREATE TABLE `job_batches` (
+`id` TEXT NOT NULL,
+`name` TEXT NOT NULL,
+`total_jobs` INTEGER NOT NULL,
+`pending_jobs` INTEGER NOT NULL,
+`failed_jobs` INTEGER NOT NULL,
+`failed_job_ids` TEXT NOT NULL,
+`options` mediumtext DEFAULT NULL,
+`cancelled_at` INTEGER DEFAULT NULL,
+`created_at` INTEGER NOT NULL,
+`finished_at` INTEGER DEFAULT NULL
+);
+
+CREATE TABLE `migrations` (
+`id` INTEGER  NOT NULL,
+`migration` TEXT NOT NULL,
+`batch` INTEGER NOT NULL
+);
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '0001_01_01_000000_create_users_table', 1),
+(2, '0001_01_01_000001_create_cache_table', 1),
+(3, '0001_01_01_000002_create_jobs_table', 1),
+(4, '2016_01_04_173148_create_admin_tables', 1),
+(5, '2024_11_09_081811_create_personal_access_tokens_table', 1);
+
+CREATE TABLE `password_reset_tokens` (
+`email` TEXT NOT NULL,
+`token` TEXT NOT NULL,
+`created_at` timestamp NULL DEFAULT NULL
+);
+
+CREATE TABLE `personal_access_tokens` (
+`id` bigINTEGER  NOT NULL,
+`tokenable_type` TEXT NOT NULL,
+`tokenable_id` bigINTEGER  NOT NULL,
+`name` TEXT NOT NULL,
+`token` TEXT NOT NULL,
+`abilities` text DEFAULT NULL,
+`last_used_at` timestamp NULL DEFAULT NULL,
+`expires_at` timestamp NULL DEFAULT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL
+);
+INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`, `last_used_at`, `expires_at`, `created_at`, `updated_at`) VALUES
+(1, 'App\\Models\\User', 1, '672f22ba62056', 'dc2e520d8b6e84b24f0fec4ccddb195946413caeba279d95ee099f881276b490', '[\"*\"]', NULL, NULL, '2024-11-09 03:22:10', '2024-11-09 03:22:10'),
+(2, 'App\\Models\\User', 1, '672f22bebbd2a', '03d3acfd90bcf7c9bb2bcbb388b8aff6a0bf4d1f9beba81154c42a82c6d808b4', '[\"*\"]', NULL, NULL, '2024-11-09 03:22:14', '2024-11-09 03:22:14'),
+(3, 'App\\Models\\User', 9, '672f269b63250', '458033ac21458ad699585432958820441aa9b6d180c91695fb9021813c7e1c24', '[\"*\"]', NULL, NULL, '2024-11-09 03:38:43', '2024-11-09 03:38:43'),
+(4, 'App\\Models\\User', 9, '672f3f49497f7', '7935c4d824ca2b3ef0b7c2c5a32eeb37ffe96fc7c49e1ecba41b77014ec5fcf5', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:01', '2024-11-09 05:24:01'),
+(5, 'App\\Models\\User', 9, '672f3f4c2bbd1', 'e31e05731a3caeeff91ca8531f21b84dd5c74802e7c057b415121b012d8982fa', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:04', '2024-11-09 05:24:04'),
+(6, 'App\\Models\\User', 9, '672f3f4e3f51a', '08122bd8435ede0f24e60cd6d48c2815ac26e96edd34a82d2ac6ef3ded803169', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:06', '2024-11-09 05:24:06'),
+(7, 'App\\Models\\User', 9, '672f3f5406fc0', 'e025cbf16e7f6dd16b8e8405a4c93ce86ad1d274b8d15158f87289068406dc39', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:12', '2024-11-09 05:24:12'),
+(8, 'App\\Models\\User', 9, '672f3f5b83c67', '7d4ee84e1b7a5c417279030a78a42ecfbec7bb7ffccd2a27791ad86fe30621a8', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:19', '2024-11-09 05:24:19'),
+(9, 'App\\Models\\User', 9, '672f3f63983e2', '116d80eafd507b5ddc3bd3312a89d062887e1f2032cbf75764bb236da53ed89f', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:27', '2024-11-09 05:24:27'),
+(10, 'App\\Models\\User', 9, '672f3f7493746', 'bc0e0f1c794fd94ce6f371bf58c05bc05b017a18cefbac0a109cf0c7468de58d', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:44', '2024-11-09 05:24:44'),
+(11, 'App\\Models\\User', 9, '672f3f7f0ae65', '4b266cd4bb91d7c9a28fbd5e19f7275542de2cfc29af9e113c01fb561c1edb7f', '[\"*\"]', NULL, NULL, '2024-11-09 05:24:55', '2024-11-09 05:24:55'),
+(12, 'App\\Models\\User', 9, '672f3fa295596', '87533ff7b7c615f075b1e1c4bec3363ea2a12545048167a49cb86343be34fc7f', '[\"*\"]', NULL, NULL, '2024-11-09 05:25:30', '2024-11-09 05:25:30'),
+(13, 'App\\Models\\User', 9, '672f3fa7068a7', '247519154f1c45795e9d1e3a2fbb53052bff50ad654eea3f6969911266d3122d', '[\"*\"]', NULL, NULL, '2024-11-09 05:25:35', '2024-11-09 05:25:35'),
+(14, 'App\\Models\\User', 9, '672f3fa93f674', '875c2f1b4f4d43a15bfaa36b3d98acdac4cde18ee24b28c5ae043c398392a790', '[\"*\"]', NULL, NULL, '2024-11-09 05:25:37', '2024-11-09 05:25:37'),
+(15, 'App\\Models\\User', 9, '672f3facbe45b', '7b4cbb4441314aa616315e59b0e91fcef4532f0764317549eb2e45d34efa763f', '[\"*\"]', NULL, NULL, '2024-11-09 05:25:40', '2024-11-09 05:25:40'),
+(16, 'App\\Models\\User', 9, '672f408f6992b', '0aa978fd8340d89a0d454527ce1d6183a4136107eab0c0f73be9ae10ba8c3125', '[\"*\"]', NULL, NULL, '2024-11-09 05:29:27', '2024-11-09 05:29:27'),
+(17, 'App\\Models\\User', 9, '672f412708b0e', 'd24b063fa7db2d54e437ea64e3d61475f2e7e7df0fe574eaf84d08b52c407fd1', '[\"*\"]', NULL, NULL, '2024-11-09 05:31:59', '2024-11-09 05:31:59');
+
+CREATE TABLE `sessions` (
+`id` TEXT NOT NULL,
+`user_id` bigINTEGER  DEFAULT NULL,
+`ip_address` TEXT DEFAULT NULL,
+`user_agent` text DEFAULT NULL,
+`payload` TEXT NOT NULL,
+`last_activity` INTEGER NOT NULL
+);
+INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
+('1CEe6NwbPvVuxUzNOT3TBaz4RdqKKq2NwJkbdfGy', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicW54bkgzVEhnT3pxQTBPWEc0ektueUZ1OHB1RVFIOEdFMlBKQU8ybSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9hdXRoL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1731141972),
+('UyKllhgE7sIcEZEcByo485kAy50BQZ7sR3DHBSPr', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTGl4cjJGMmxFVTlrUUxmMjlUY0FrMTFKNmhvNzl5T3Q4anZaOFNLdCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9hdXRoL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1731141134),
+('zo5oLJm7xwW9OZ83FK3yAeeotQ7pkfJ9rAigQ0mF', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQXNxM25FY2hWVTI1VzhSbHFoTnZtTEJOQVkyRG9GYTdFbHgzcDJ6RyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9hdXRoL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1731202139);
+
+CREATE TABLE `users` (
+`id` bigINTEGER  NOT NULL,
+`name` TEXT NOT NULL,
+`email` TEXT NOT NULL,
+`email_verified_at` timestamp NULL DEFAULT NULL,
+`avatar` TEXT NOT NULL,
+`type` INTEGER NOT NULL,
+`open_id` TEXT NOT NULL,
+`access_token` TEXT DEFAULT NULL,
+`deleted_at` datetime NOT NULL DEFAULT current_timestamp(),
+`phone` TEXT DEFAULT NULL,
+`password` TEXT DEFAULT NULL,
+`remember_token` TEXT DEFAULT NULL,
+`created_at` timestamp NULL DEFAULT NULL,
+`updated_at` timestamp NULL DEFAULT NULL,
+`token` TEXT NOT NULL
+);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `avatar`, `type`, `open_id`, `access_token`, `deleted_at`, `phone`, `password`, `remember_token`, `created_at`, `updated_at`, `token`) VALUES
+(9, 'niranga', 'niranganiluminda@gmail.com', NULL, 'uploads/default.png', 1, 'wIXJkTpYhcect7gzaHcBJkTMzNs2', '17|UgChAK1r1d2ZVcKffZQtArZsZNhQulQOGCFSnoV914606e98', '2024-11-09 14:38:43', NULL, NULL, NULL, '2024-11-09 03:38:43', '2024-11-09 05:31:59', 'eb4a5fdddf246e4922d0a6fe6849f5d6');
+ALTER TABLE `admin_menu`
+ADD PRIMARY KEY (`id`);
+ALTER TABLE `admin_operation_log`
+ADD PRIMARY KEY (`id`),
+ADD KEY `admin_operation_log_user_id_index` (`user_id`);
+ALTER TABLE `admin_permissions`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `admin_permissions_name_unique` (`name`),
+ADD UNIQUE KEY `admin_permissions_slug_unique` (`slug`);
+ALTER TABLE `admin_roles`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `admin_roles_name_unique` (`name`),
+ADD UNIQUE KEY `admin_roles_slug_unique` (`slug`);
+ALTER TABLE `admin_role_menu`
+ADD KEY `admin_role_menu_role_id_menu_id_index` (`role_id`,`menu_id`);
+ALTER TABLE `admin_role_permissions`
+ADD KEY `admin_role_permissions_role_id_permission_id_index` (`role_id`,`permission_id`);
+ALTER TABLE `admin_role_users`
+ADD KEY `admin_role_users_role_id_user_id_index` (`role_id`,`user_id`);
+ALTER TABLE `admin_users`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `admin_users_username_unique` (`username`);
+ALTER TABLE `admin_user_permissions`
+ADD KEY `admin_user_permissions_user_id_permission_id_index` (`user_id`,`permission_id`);
+ALTER TABLE `cache`
+ADD PRIMARY KEY (`key`);
+ALTER TABLE `cache_locks`
+ADD PRIMARY KEY (`key`);
+ALTER TABLE `failed_jobs`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+ALTER TABLE `jobs`
+ADD PRIMARY KEY (`id`),
+ADD KEY `jobs_queue_index` (`queue`);
+ALTER TABLE `job_batches`
+ADD PRIMARY KEY (`id`);
+ALTER TABLE `migrations`
+ADD PRIMARY KEY (`id`);
+ALTER TABLE `password_reset_tokens`
+ADD PRIMARY KEY (`email`);
+ALTER TABLE `personal_access_tokens`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
+ALTER TABLE `sessions`
+ADD PRIMARY KEY (`id`),
+ADD KEY `sessions_user_id_index` (`user_id`),
+ADD KEY `sessions_last_activity_index` (`last_activity`);
+ALTER TABLE `users`
+ADD PRIMARY KEY (`id`),
+ADD UNIQUE KEY `users_email_unique` (`email`);
+ALTER TABLE `admin_menu`
+MODIFY `id` INTEGER  NOT NULL ;
+ALTER TABLE `admin_operation_log`
+MODIFY `id` INTEGER  NOT NULL ;
+ALTER TABLE `admin_permissions`
+MODIFY `id` INTEGER  NOT NULL ;
+ALTER TABLE `admin_roles`
+MODIFY `id` INTEGER  NOT NULL ;
+ALTER TABLE `admin_users`
+MODIFY `id` INTEGER  NOT NULL ;
+ALTER TABLE `failed_jobs`
+MODIFY `id` bigINTEGER  NOT NULL ;
+ALTER TABLE `jobs`
+MODIFY `id` bigINTEGER  NOT NULL ;
+ALTER TABLE `migrations`
+MODIFY `id` INTEGER  NOT NULL , =6;
+ALTER TABLE `personal_access_tokens`
+MODIFY `id` bigINTEGER  NOT NULL , =18;
+ALTER TABLE `users`
+MODIFY `id` bigINTEGER  NOT NULL , =14;
+COMMIT;
+
+
+
+
+
+COMMIT;
+PRAGMA ignore_check_constraints = ON;
+PRAGMA foreign_keys = ON;
+PRAGMA journal_mode = WAL;
+PRAGMA synchronous = NORMAL;
