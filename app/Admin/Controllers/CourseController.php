@@ -60,18 +60,18 @@ class CourseController extends AdminController
         
 
         //$grid->column('user_token', __('Teacher'));
-        $grid->column('name', __('Name'));
+        #$grid->column('name', __('Name'));
 
         
-        $grid->column('thumbnail', __('Thumbnail'));
+        // $grid->column('thumbnail', __('Thumbnail'));
         $grid->column('thumbnail', __('Thumbnail'))->image('', 50,50);
 
-        $grid->column('thumbnail', __('Thumbnail'))->display(function ($thumbnail) {
-            // Remove the extra '/images' part if it exists
-            $cleanedThumbnail = str_replace('uploads/images/images/', 'uploads/images/', $thumbnail);
+        // $grid->column('thumbnail', __('Thumbnail'))->display(function ($thumbnail) {
+        //     // Remove the extra '/images' part if it exists
+        //     $cleanedThumbnail = str_replace('uploads/images/images/', 'uploads/images/', $thumbnail);
         
-            return $thumbnail;
-        });
+        //     return $thumbnail;
+        // });
         
 
         // $grid->column('thumbnail', __('Thumbnail'))->display(function ($thumbnail) {
@@ -99,10 +99,10 @@ class CourseController extends AdminController
         $grid->column('price', __('Price'));
         $grid->column('lesson_num', __('Lesson Number'));
         $grid->column('video_length', __('Video Length'));
-        $grid->column('follow', __('Follow'));
-        $grid->column('score', __('Score'));
+        // $grid->column('follow', __('Follow'));
+        // $grid->column('score', __('Score'));
         $grid->column('created_at', __('Created At'));
-        $grid->column('updated_at', __('Updated At'));
+        // $grid->column('updated_at', __('Updated At'));
 
 
         return $grid;
