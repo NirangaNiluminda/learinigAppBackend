@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -11,10 +12,11 @@ Route::group(['namespace' => 'Api'], function () {
 
     // Only one login route, pointing to the correct method
     Route::post('/login', [UserController::class, 'login']);
+    //Route::post('/login','UserController@createUser');
 
     // Authentication middleware group using Sanctum
     Route::group(['middleware' => ['auth:sanctum']], function () {
-        Route::post('courseList', [CourseController::class, 'courseList']);
+        Route::any('courseList', [CourseController::class, 'courseList']);
     });
 });
 
