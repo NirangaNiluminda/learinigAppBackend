@@ -2,6 +2,7 @@
 
 use App\Admin\Controllers\CourseController;
 use App\Admin\Controllers\CourseTypeController;
+use App\Admin\Controllers\LessonController;
 use App\Admin\Controllers\UserController;
 use Illuminate\Routing\Router;
 
@@ -18,6 +19,7 @@ Route::group([
     $router->resource('/users', UserController::class);
     $router->resource('/course-type', CourseTypeController::class);
     $router->resource('/courses', CourseController::class);
+    $router->resource('/lessons', LessonController::class);
 
 
 });

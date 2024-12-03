@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CourseController;
+use App\Http\Controllers\Api\LessonController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,7 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::any('/courseList', [CourseController::class, 'courseList']);
 Route::any('/courseDetail', [CourseController::class, 'courseDetail']);
-
+Route::any('/lessonList', [LessonController::class, 'lessonList']);
 
 Route::get('/student', function () {
     return "test api";
