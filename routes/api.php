@@ -27,6 +27,7 @@ Route::post('/login', [UserController::class, 'login']);
 
 Route::any('/courseList', [CourseController::class, 'courseList']);
 
+Route::any('/courseDetails',[CourseController::class, 'courseDetails']);
 
 Route::get('/student', function () {
     return "test api";
