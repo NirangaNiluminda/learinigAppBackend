@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [UserController::class, 'login']);
 
 Route::any('/courseList', [CourseController::class, 'courseList']);
+Route::any('/courseDetail', [CourseController::class, 'courseDetail']);
 
 Route::any('/courseDetails',[CourseController::class, 'courseDetails']);
 
