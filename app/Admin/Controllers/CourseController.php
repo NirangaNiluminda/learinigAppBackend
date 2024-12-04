@@ -164,6 +164,7 @@ class CourseController extends AdminController
         $form->number('video_length', __('Video Length'));
         //for posting, who is posting
         $result = User::pluck('name','token');
+        
         $form->select('user_token',__('Teacher'))->options($result);
         $form->display('created_at', __('Created at'));
         $form->display('updated_at', __('Updated at'));
